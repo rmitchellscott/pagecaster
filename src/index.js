@@ -15,6 +15,7 @@ class PageCaster {
     this.screenWidth = parseInt(process.env.SCREEN_WIDTH) || 854;
     this.screenHeight = parseInt(process.env.SCREEN_HEIGHT) || 480;
     this.ffmpegPreset = process.env.FFMPEG_PRESET || 'veryfast';
+    this.framerate = parseInt(process.env.FRAMERATE) || 30;
     
     this.browser = null;
     this.page = null;
@@ -48,6 +49,10 @@ class PageCaster {
           `--window-size=${this.screenWidth},${this.screenHeight}`,
           '--window-position=0,0',
           '--autoplay-policy=no-user-gesture-required',
+          '--allow-running-insecure-content',
+          '--disable-web-security',
+          '--disable-features=VizDisplayCompositor',
+          '--enable-features=PulseAudio',
           '--kiosk'
         ],
         defaultViewport: null
@@ -96,28 +101,59 @@ class PageCaster {
 
   async setupWebpageAudio() {
     try {
-      console.log('Capturing webpage audio using puppeteer-stream...');
+      console.log('Setting up webpage audio capture via PulseAudio...');
       
-      await this.page.evaluate(() => {
-        if (typeof window.webkitAudioContext !== 'undefined') {
-          const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      // Wait for page to be fully loaded
+      await this.page.waitForFunction(() => document.readyState === 'complete', {timeout: 10000});
+      
+      // Check what audio elements exist and try to activate them
+      const audioInfo = await this.page.evaluate(() => {
+        // Resume audio context if it exists
+        let audioContextState = 'none';
+        if (typeof window.AudioContext !== 'undefined' || typeof window.webkitAudioContext !== 'undefined') {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          const audioContext = new AudioContextClass();
+          audioContextState = audioContext.state;
           audioContext.resume();
         }
+        
+        // Try to play any audio/video elements
+        const audioElements = document.querySelectorAll('audio, video');
+        const elementInfo = Array.from(audioElements).map(el => ({
+          tagName: el.tagName,
+          src: el.src || el.currentSrc,
+          paused: el.paused,
+          muted: el.muted,
+          autoplay: el.autoplay
+        }));
+        
+        audioElements.forEach(el => {
+          if (el.play) {
+            el.play().catch(() => {});
+          }
+        });
+        
+        return {
+          audioContextState,
+          elementCount: audioElements.length,
+          elements: elementInfo
+        };
       });
 
-      this.audioStream = await getStream(this.page, { 
-        audio: true, 
-        video: false,
-        mimeType: 'audio/webm;codecs=opus'
-      });
+      console.log('Audio info on page:', JSON.stringify(audioInfo, null, 2));
 
-      return {
-        type: 'stream',
-        stream: this.audioStream
-      };
+      if (audioInfo.elementCount > 0) {
+        console.log('Found audio elements, will capture via PulseAudio');
+        return {
+          type: 'stream'
+        };
+      } else {
+        console.log('No audio elements found, falling back to silent audio');
+        return this.setupSilentAudio();
+      }
       
     } catch (error) {
-      console.error('Failed to capture webpage audio:', error);
+      console.error('Failed to setup webpage audio:', error.message);
       console.log('Falling back to silent audio...');
       return this.setupSilentAudio();
     }
@@ -182,6 +218,7 @@ class PageCaster {
     const baseArgs = [
       '-y',
       '-f', 'x11grab',
+      '-r', this.framerate.toString(),  // Input framerate
       '-s', `${this.screenWidth}x${this.screenHeight}`,
       '-draw_mouse', '0',
       '-i', ':99.0'
@@ -193,9 +230,8 @@ class PageCaster {
         audioArgs.push('-i', audioConfig.source);
         break;
       case 'stream':
-        // For webpage audio, we would need different handling
-        console.warn('Webpage audio capture not yet implemented, falling back to silent');
-        audioArgs.push('-f', 'lavfi', '-i', 'anullsrc=channel_layout=stereo:sample_rate=44100');
+        // Use PulseAudio to capture from our virtual audio device
+        audioArgs.push('-f', 'pulse', '-i', 'virtual-audio.monitor');
         break;
       case 'silent':
         audioArgs.push('-f', 'lavfi', '-i', 'anullsrc=channel_layout=stereo:sample_rate=44100');
@@ -209,6 +245,8 @@ class PageCaster {
       '-maxrate', '3000k',
       '-bufsize', '6000k',
       '-pix_fmt', 'yuv420p',
+      '-r', this.framerate.toString(),  // Output framerate
+      '-vsync', 'cfr',  // Constant frame rate
       '-c:a', 'aac',
       '-b:a', '128k',
       '-ac', '2',
@@ -246,6 +284,7 @@ class PageCaster {
       console.log(`Web URL: ${this.webUrl}`);
       console.log(`RTMP URL: ${this.rtmpUrl}`);
       console.log(`Screen size: ${this.screenWidth}x${this.screenHeight}`);
+      console.log(`Framerate: ${this.framerate}fps`);
       
       await this.setupBrowser();
       await this.startScreencast();

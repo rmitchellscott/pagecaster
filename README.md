@@ -161,6 +161,7 @@ spec:
 | SCREEN_HEIGHT           | no        | Height of browser window (default: 480) | 480 |
 | SCREEN_WIDTH          | no        | Width of browser window (default: 854) | 854 |
 | FFMPEG_PRESET         | no        | FFmpeg encoding preset (default: veryfast) | medium |
+| FRAMERATE             | no        | Video framerate (default: 30) | 60 |
 
 ## Audio Source Options
 

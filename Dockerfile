@@ -9,10 +9,18 @@ RUN apk update && \
     bash \
     udev \
     ttf-freefont \
-    ca-certificates
+    ca-certificates \
+    pulseaudio \
+    alsa-utils \
+    dbus
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
-    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser \
+    PULSE_SERVER=unix:/tmp/pulse-socket
+
+# Create audio configuration
+RUN echo "pcm.!default { type pulse }" > /etc/asound.conf && \
+    echo "ctl.!default { type pulse }" >> /etc/asound.conf
 
 WORKDIR /app
 
