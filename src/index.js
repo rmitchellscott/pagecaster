@@ -8,7 +8,8 @@ const { PassThrough } = require('stream');
 class PageCaster {
   constructor() {
     this.validateEnvironment();
-    this.audioSource = process.env.AUDIO_SOURCE || 'icecast';
+    // Auto-set AUDIO_SOURCE to icecast if ICE_URL is provided and AUDIO_SOURCE isn't explicitly set
+    this.audioSource = process.env.AUDIO_SOURCE || (process.env.ICE_URL ? 'icecast' : 'silent');
     this.webUrl = process.env.WEB_URL;
     this.rtmpUrl = process.env.RTMP_URL;
     this.iceUrl = process.env.ICE_URL;

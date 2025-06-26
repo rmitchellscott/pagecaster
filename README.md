@@ -155,7 +155,7 @@ spec:
 | Variable                 | Required? | Details | Example |
 |--------------------------|-----------|---------|---------|
 | WEB_URL               | yes       | URL to stream | https://weatherstar.netbymatt.com/   |
-| AUDIO_SOURCE          | no        | Audio source: 'browser', 'icecast', or 'silent' (default: 'silent') | browser |
+| AUDIO_SOURCE          | no        | Audio source: 'browser', 'icecast', or 'silent' (default: auto-detects to 'icecast' if ICE_URL is set, otherwise 'silent') | browser |
 | ICE_URL               | conditional | Icecast URL (required if AUDIO_SOURCE=icecast) | https://radio.supercool.stream |
 | RTMP_URL               | yes       | RTMP URL to stream to | rtmp://supercool.stream:1935/live |
 | SCREEN_HEIGHT           | no        | Height of browser window (default: 480) | 480 |
