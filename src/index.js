@@ -142,13 +142,15 @@ class PageCaster {
 
       console.log('Audio info on page:', JSON.stringify(audioInfo, null, 2));
 
-      if (audioInfo.elementCount > 0) {
-        console.log('Found audio elements, will capture via PulseAudio');
+      // For webpage audio, always try to capture system audio 
+      // (some sites use Web Audio API without HTML audio elements)
+      if (audioInfo.audioContextState === 'running' || audioInfo.elementCount > 0) {
+        console.log(`Will capture browser audio via PulseAudio (AudioContext: ${audioInfo.audioContextState}, Elements: ${audioInfo.elementCount})`);
         return {
           type: 'stream'
         };
       } else {
-        console.log('No audio elements found, falling back to silent audio');
+        console.log('No audio context or elements found, falling back to silent audio');
         return this.setupSilentAudio();
       }
       
