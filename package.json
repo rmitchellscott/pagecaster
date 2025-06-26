@@ -1,0 +1,20 @@
+{
+  "name": "pagecaster",
+  "version": "1.0.0",
+  "description": "Stream web pages to RTMP with optional audio sources",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "puppeteer": "^23.0.0",
+    "puppeteer-stream": "^3.0.20"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
