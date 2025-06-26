@@ -5,11 +5,11 @@ Pagecaster streams a web browser to an RTMP server with flexible audio source op
 The following examples are provided as a way to get started. Some adjustments may be required before production use, particularly regarding secret management.
 ## Docker
 ```shell
-# With webpage audio capture
+# With browser audio capture
 docker run -d \
 --shm-size=256m \
 -e WEB_URL="https://weatherstar.netbymatt.com/" \
--e AUDIO_SOURCE="webpage" \
+-e AUDIO_SOURCE="browser" \
 -e RTMP_URL="rtmp://supercool.stream:1935/live" \
 -e SCREEN_HEIGHT=480 \
 -e SCREEN_WIDTH=854 \
@@ -51,7 +51,7 @@ services:
           shm_size: 256m
     environment:
       - WEB_URL=https://weatherstar.netbymatt.com/
-      - AUDIO_SOURCE=webpage  # or 'icecast' or 'silent'
+      - AUDIO_SOURCE=browser  # or 'icecast' or 'silent'
       - ICE_URL=https://radio.supercool.stream  # only needed if AUDIO_SOURCE=icecast
       - RTMP_URL=rtmp://supercool.stream:1935/live
       - SCREEN_HEIGHT=480
@@ -155,7 +155,7 @@ spec:
 | Variable                 | Required? | Details | Example |
 |--------------------------|-----------|---------|---------|
 | WEB_URL               | yes       | URL to stream | https://weatherstar.netbymatt.com/   |
-| AUDIO_SOURCE          | no        | Audio source: 'webpage', 'icecast', or 'silent' (default: 'icecast') | webpage |
+| AUDIO_SOURCE          | no        | Audio source: 'browser', 'icecast', or 'silent' (default: 'silent') | browser |
 | ICE_URL               | conditional | Icecast URL (required if AUDIO_SOURCE=icecast) | https://radio.supercool.stream |
 | RTMP_URL               | yes       | RTMP URL to stream to | rtmp://supercool.stream:1935/live |
 | SCREEN_HEIGHT           | no        | Height of browser window (default: 480) | 480 |
@@ -165,6 +165,6 @@ spec:
 
 ## Audio Source Options
 
-- **webpage**: Captures audio directly from the webpage using Puppeteer and the MediaRecorder API
+- **browser**: Captures audio directly from the webpage using pulseaudio
 - **icecast**: Uses an external Icecast stream as the audio source (maintains backward compatibility)
 - **silent**: Generates a silent audio track for video-only streaming

@@ -87,15 +87,15 @@ class PageCaster {
     console.log(`Setting up audio capture (source: ${this.audioSource})`);
     
     switch (this.audioSource.toLowerCase()) {
-      case 'webpage':
+      case 'browser':
         return await this.setupWebpageAudio();
       case 'icecast':
         return this.setupIcecastAudio();
       case 'silent':
         return this.setupSilentAudio();
       default:
-        console.warn(`Unknown audio source: ${this.audioSource}, falling back to icecast`);
-        return this.setupIcecastAudio();
+        console.warn(`Unknown audio source: ${this.audioSource}, falling back to silence`);
+        return this.setupSilentAudio();
     }
   }
 
