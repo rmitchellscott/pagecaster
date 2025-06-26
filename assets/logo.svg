@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 669 669" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g transform="matrix(1,0,0,1,-164.021,-132.524)">
+        <g transform="matrix(1,0,0,1,-36.1366,22.4226)">
+            <path d="M869.125,178.247L869.125,710.924C869.125,748.535 838.59,779.07 800.98,779.07L268.303,779.07C230.692,779.07 200.157,748.535 200.157,710.924L200.157,178.247C200.157,140.637 230.692,110.102 268.303,110.102L800.98,110.102C838.59,110.102 869.125,140.637 869.125,178.247Z" style="fill:url(#_Linear1);"/>
+        </g>
+        <g transform="matrix(1,0,0,1,-9.99113,35.1101)">
+            <g transform="matrix(1.04872,0,0,1.01534,-22.491,-6.12609)">
+                <path d="M636.124,349.146L636.124,572.944C636.124,589.031 623.48,602.092 607.905,602.092L313.404,602.092C297.829,602.092 285.184,589.031 285.184,572.944L285.184,349.146C285.184,333.059 297.829,319.999 313.404,319.999L607.905,319.999C623.48,319.999 636.124,333.059 636.124,349.146Z" style="fill:none;stroke:black;stroke-width:21.31px;"/>
+            </g>
+            <g transform="matrix(1.03457,0,0,8.03099,-34.4075,-1869.15)">
+                <rect x="305.788" y="282.345" width="350.556" height="0.02" style="fill:none;stroke:black;stroke-width:3.84px;"/>
+            </g>
+            <g transform="matrix(0.782954,0,0,0.782954,62.1922,72.9338)">
+                <ellipse cx="335.382" cy="364.706" rx="15.074" ry="15.122"/>
+            </g>
+            <g transform="matrix(0.782954,0,0,0.782954,105.526,72.9338)">
+                <ellipse cx="335.382" cy="364.706" rx="15.074" ry="15.122"/>
+            </g>
+            <g transform="matrix(0.782954,0,0,0.782954,149.656,72.9338)">
+                <ellipse cx="335.382" cy="364.706" rx="15.074" ry="15.122"/>
+            </g>
+            <g transform="matrix(29.7541,0,0,29.7541,469.854,-160.045)">
+                <path d="M8,18C8,15.791 6.209,14 4,14M4,12C7.314,12 10,14.686 10,18" style="fill:none;fill-rule:nonzero;stroke:black;stroke-width:0.84px;stroke-miterlimit:4;"/>
+            </g>
+        </g>
+    </g>
+    <defs>
+        <linearGradient id="_Linear1" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(619.311,-628.653,628.653,619.311,221.863,761.408)"><stop offset="0" style="stop-color:rgb(83,105,213);stop-opacity:1"/><stop offset="1" style="stop-color:rgb(233,147,181);stop-opacity:1"/></linearGradient>
+    </defs>
+</svg>

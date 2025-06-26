@@ -1,4 +1,6 @@
 # Pagecaster
+<img src="assets/logo.svg" alt="Ephemeris Icon" width="125" align="right">
+
 Pagecaster streams a web browser to an RTMP server with flexible audio source options! It uses Puppeteer to control a headless browser and streams the content via FFmpeg to an RTMP server. You can choose between webpage audio capture, external Icecast streams, or silent audio. A 480p stream typically consumes about half a CPU core and 300MB of RAM.
 
 # Examples
